@@ -1,0 +1,31 @@
+# 项目相关配置
+trad:
+  # 名称
+  name: Trad
+  # 版本
+  version: 1.0.0
+  # 版权年份
+  copyrightYear: 2024
+  # 文件路径 示例（ Windows配置D:/Trad/uploadPath，Linux配置 /home/Trad/uploadPath）
+  profile: D:/ruoyi/uploadPath
+  htmlfile: D:/ruoyi/htmlPath
+  # 获取ip地址开关
+  addressEnabled: false
+  # 验证码类型 math 数字计算 char 字符验证
+  captchaType: math
+
+server:
+  port: 8090
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/traditional_ry?serverTimezone=GMT%2b8&useSSL=true&useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: 52780
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 开启日志输出
+#    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl #关闭日志输出
+#  mapper-locations: classpath:mapper/*.xml  # xml文件的位置配置
+  type-aliases-package: com.wms.pojo        # 别名
+

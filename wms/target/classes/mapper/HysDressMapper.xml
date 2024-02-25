@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wms.mapper.HysDressMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.wms.pojo.HysDress">
+        <id column="dress_id" property="dressId" />
+        <result column="dress_title" property="dressTitle" />
+        <result column="dress_thumbnail" property="dressThumbnail" />
+        <result column="dress_description" property="dressDescription" />
+        <result column="dress_view" property="dressView" />
+        <result column="dress_writer_id" property="dressWriterId" />
+        <result column="dress_content" property="dressContent" />
+        <result column="dress_publish_time" property="dressPublishTime" />
+        <result column="create_by" property="createBy" />
+        <result column="create_time" property="createTime" />
+        <result column="update_by" property="updateBy" />
+        <result column="update_time" property="updateTime" />
+        <result column="remark" property="remark" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        dress_id, dress_title, dress_thumbnail, dress_description, dress_view, dress_writer_id, dress_content, dress_publish_time, create_by, create_time, update_by, update_time, remark
+    </sql>
+
+    <select id="getByDressId" resultType="map">
+        select <include refid="Base_Column_List"></include>
+        from hys_dress
+        where dress_id = #{dressId}
+    </select>
+
+
+</mapper>

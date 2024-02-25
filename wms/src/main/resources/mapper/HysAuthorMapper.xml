@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wms.mapper.HysAuthorMapper">
+    
+    <resultMap type="HysAuthor" id="HysAuthorResult">
+        <result property="authorId"    column="author_id"    />
+        <result property="authorName"    column="author_name"    />
+        <result property="authorDescription"    column="author_description"    />
+        <result property="authorAvatar"    column="author_avatar"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectHysAuthorVo">
+        select author_id, author_name, author_description, author_avatar, create_by, create_time, update_by, update_time, remark from hys_author
+    </sql>
+
+    <select id="selectHysAuthorList" parameterType="HysAuthor" resultMap="HysAuthorResult">
+        <include refid="selectHysAuthorVo"/>
+        <where>
+            <if test="authorName != null  and authorName != ''"> and author_name like concat('%', #{authorName}, '%')</if>
+            <if test="authorDescription != null  and authorDescription != ''"> and author_description like concat('%', #{authorDescription}, '%')</if>
+            <if test="createTime != null "> and create_time = #{createTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectHysAuthorByAuthorId" parameterType="Long" resultMap="HysAuthorResult">
+        <include refid="selectHysAuthorVo"/>
+        where author_id = #{authorId}
+    </select>
+        
+    <insert id="insertHysAuthor" parameterType="HysAuthor" useGeneratedKeys="true" keyProperty="authorId">
+        insert into hys_author
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="authorName != null and authorName != ''">author_name,</if>
+            <if test="authorDescription != null">author_description,</if>
+            <if test="authorAvatar != null">author_avatar,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="authorName != null and authorName != ''">#{authorName},</if>
+            <if test="authorDescription != null">#{authorDescription},</if>
+            <if test="authorAvatar != null">#{authorAvatar},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateHysAuthor" parameterType="HysAuthor">
+        update hys_author
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="authorName != null and authorName != ''">author_name = #{authorName},</if>
+            <if test="authorDescription != null">author_description = #{authorDescription},</if>
+            <if test="authorAvatar != null">author_avatar = #{authorAvatar},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where author_id = #{authorId}
+    </update>
+
+    <delete id="deleteHysAuthorByAuthorId" parameterType="Long">
+        delete from hys_author where author_id = #{authorId}
+    </delete>
+
+    <delete id="deleteHysAuthorByAuthorIds" parameterType="String">
+        delete from hys_author where author_id in 
+        <foreach item="authorId" collection="array" open="(" separator="," close=")">
+            #{authorId}
+        </foreach>
+    </delete>
+</mapper>

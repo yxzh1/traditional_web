@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wms.mapper.HysUserMapper">
+    
+    <resultMap type="HysUser" id="HysUserResult">
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="nickName"    column="nick_name"    />
+        <result property="userPassword"    column="user_password"    />
+        <result property="userAge"    column="user_age"    />
+        <result property="userSex"    column="user_sex"    />
+        <result property="userPhone"    column="user_phone"    />
+        <result property="userEmail"    column="user_email"    />
+        <result property="userAvatar"    column="user_avatar"    />
+        <result property="roleId"    column="role_id"    />
+        <result property="isValid"    column="isValid"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectHysUserVo">
+        select user_id, user_name, nick_name, user_password, user_age, user_sex, user_phone, user_email, user_avatar, role_id, isValid, create_by, create_time, update_by, update_time, remark from hys_user
+    </sql>
+
+    <select id="selectByNamePass" resultMap="HysUserResult">
+        <include refid="selectHysUserVo"/>
+        where user_name = #{username} and user_password = #{password}
+    </select>
+
+    <select id="selectHysUserList" parameterType="HysUser" resultMap="HysUserResult">
+        <include refid="selectHysUserVo"/>
+        <where>  
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+            <if test="nickName != null  and nickName != ''"> and nick_name like concat('%', #{nickName}, '%')</if>
+            <if test="userPassword != null  and userPassword != ''"> and user_password = #{userPassword}</if>
+            <if test="userAge != null "> and user_age = #{userAge}</if>
+            <if test="userSex != null "> and user_sex = #{userSex}</if>
+            <if test="userPhone != null  and userPhone != ''"> and user_phone = #{userPhone}</if>
+            <if test="userEmail != null  and userEmail != ''"> and user_email = #{userEmail}</if>
+            <if test="userAvatar != null  and userAvatar != ''"> and user_avatar = #{userAvatar}</if>
+            <if test="roleId != null "> and role_id = #{roleId}</if>
+            <if test="isValid != null "> and isValid = #{isValid}</if>
+        </where>
+    </select>
+    
+    <select id="selectHysUserByUserId" parameterType="Long" resultMap="HysUserResult">
+        <include refid="selectHysUserVo"/>
+        where user_id = #{userId}
+    </select>
+        
+    <insert id="insertHysUser" parameterType="HysUser" useGeneratedKeys="true" keyProperty="userId">
+        insert into hys_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userName != null and userName != ''">user_name,</if>
+            <if test="nickName != null">nick_name,</if>
+            <if test="userPassword != null and userPassword != ''">user_password,</if>
+            <if test="userAge != null">user_age,</if>
+            <if test="userSex != null">user_sex,</if>
+            <if test="userPhone != null">user_phone,</if>
+            <if test="userEmail != null">user_email,</if>
+            <if test="userAvatar != null">user_avatar,</if>
+            <if test="roleId != null">role_id,</if>
+            <if test="isValid != null">isValid,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userName != null and userName != ''">#{userName},</if>
+            <if test="nickName != null">#{nickName},</if>
+            <if test="userPassword != null and userPassword != ''">#{userPassword},</if>
+            <if test="userAge != null">#{userAge},</if>
+            <if test="userSex != null">#{userSex},</if>
+            <if test="userPhone != null">#{userPhone},</if>
+            <if test="userEmail != null">#{userEmail},</if>
+            <if test="userAvatar != null">#{userAvatar},</if>
+            <if test="roleId != null">#{roleId},</if>
+            <if test="isValid != null">#{isValid},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateHysUser" parameterType="HysUser">
+        update hys_user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userName != null and userName != ''">user_name = #{userName},</if>
+            <if test="nickName != null">nick_name = #{nickName},</if>
+            <if test="userPassword != null and userPassword != ''">user_password = #{userPassword},</if>
+            <if test="userAge != null">user_age = #{userAge},</if>
+            <if test="userSex != null">user_sex = #{userSex},</if>
+            <if test="userPhone != null">user_phone = #{userPhone},</if>
+            <if test="userEmail != null">user_email = #{userEmail},</if>
+            <if test="userAvatar != null">user_avatar = #{userAvatar},</if>
+            <if test="roleId != null">role_id = #{roleId},</if>
+            <if test="isValid != null">isValid = #{isValid},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where user_id = #{userId}
+    </update>
+
+    <delete id="deleteHysUserByUserId" parameterType="Long">
+        delete from hys_user where user_id = #{userId}
+    </delete>
+
+    <delete id="deleteHysUserByUserIds" parameterType="String">
+        delete from hys_user where user_id in 
+        <foreach item="userId" collection="array" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wms.mapper.HysAuthorNoteMapper">
+    
+    <resultMap type="HysAuthorNote" id="HysAuthorNoteResult">
+        <result property="authorNoteId"    column="author_note_id"    />
+        <result property="authorNoteTitle"    column="author_note_title"    />
+        <result property="authorNoteThumbnail"    column="author_note_thumbnail"    />
+        <result property="authorNoteDescription"    column="author_note_description"    />
+        <result property="authorNoteView"    column="author_note_view"    />
+        <result property="authorNoteWriterId"    column="author_note_writer_id"    />
+        <result property="authorNoteDetailContent"    column="author_note_detail_content"    />
+        <result property="authorNotePublishTime"    column="author_note_publish_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectHysAuthorNoteVo">
+        select author_note_id, author_note_title, author_note_thumbnail, author_note_description, author_note_view, author_note_writer_id, author_note_detail_content, author_note_publish_time, create_by, create_time, update_by, update_time, remark from hys_author_note
+    </sql>
+
+    <select id="getByAuthorNoteId" resultType="map">
+        <include refid="selectHysAuthorNoteVo"/>
+        where author_note_id = #{authorNoteId}
+    </select>
+
+    <select id="selectHysAuthorNoteList" parameterType="HysAuthorNote" resultMap="HysAuthorNoteResult">
+        <include refid="selectHysAuthorNoteVo"/>
+        <where>  
+            <if test="authorNoteTitle != null  and authorNoteTitle != ''"> and author_note_title like concat('%', #{authorNoteTitle}, '%')</if>
+            <if test="authorNoteDescription != null  and authorNoteDescription != ''"> and author_note_description like concat('%', #{authorNoteDescription}, '%')</if>
+            <if test="authorNotePublishTime != null "> and author_note_publish_time like concat('%', #{authorNotePublishTime}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectHysAuthorNoteByAuthorNoteId" parameterType="Long" resultMap="HysAuthorNoteResult">
+        <include refid="selectHysAuthorNoteVo"/>
+        where author_note_id = #{authorNoteId}
+    </select>
+        
+    <insert id="insertHysAuthorNote" parameterType="HysAuthorNote" useGeneratedKeys="true" keyProperty="authorNoteId">
+        insert into hys_author_note
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="authorNoteTitle != null and authorNoteTitle != ''">author_note_title,</if>
+            <if test="authorNoteThumbnail != null">author_note_thumbnail,</if>
+            <if test="authorNoteDescription != null">author_note_description,</if>
+            <if test="authorNoteView != null">author_note_view,</if>
+            <if test="authorNoteWriterId != null">author_note_writer_id,</if>
+            <if test="authorNoteDetailContent != null">author_note_detail_content,</if>
+            <if test="authorNotePublishTime != null">author_note_publish_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="authorNoteTitle != null and authorNoteTitle != ''">#{authorNoteTitle},</if>
+            <if test="authorNoteThumbnail != null">#{authorNoteThumbnail},</if>
+            <if test="authorNoteDescription != null">#{authorNoteDescription},</if>
+            <if test="authorNoteView != null">#{authorNoteView},</if>
+            <if test="authorNoteWriterId != null">#{authorNoteWriterId},</if>
+            <if test="authorNoteDetailContent != null">#{authorNoteDetailContent},</if>
+            <if test="authorNotePublishTime != null">#{authorNotePublishTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateHysAuthorNote" parameterType="HysAuthorNote">
+        update hys_author_note
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="authorNoteTitle != null and authorNoteTitle != ''">author_note_title = #{authorNoteTitle},</if>
+            <if test="authorNoteThumbnail != null">author_note_thumbnail = #{authorNoteThumbnail},</if>
+            <if test="authorNoteDescription != null">author_note_description = #{authorNoteDescription},</if>
+            <if test="authorNoteView != null">author_note_view = #{authorNoteView},</if>
+            <if test="authorNoteWriterId != null">author_note_writer_id = #{authorNoteWriterId},</if>
+            <if test="authorNoteDetailContent != null">author_note_detail_content = #{authorNoteDetailContent},</if>
+            <if test="authorNotePublishTime != null">author_note_publish_time = #{authorNotePublishTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where author_note_id = #{authorNoteId}
+    </update>
+
+    <delete id="deleteHysAuthorNoteByAuthorNoteId" parameterType="Long">
+        delete from hys_author_note where author_note_id = #{authorNoteId}
+    </delete>
+
+    <delete id="deleteHysAuthorNoteByAuthorNoteIds" parameterType="String">
+        delete from hys_author_note where author_note_id in 
+        <foreach item="authorNoteId" collection="array" open="(" separator="," close=")">
+            #{authorNoteId}
+        </foreach>
+    </delete>
+</mapper>

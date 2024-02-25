@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wms.mapper.HysMzwhMapper">
+    
+    <resultMap type="HysMzwh" id="HysMzwhResult">
+        <result property="mzwhId"    column="mzwh_id"    />
+        <result property="mzwhTitle"    column="mzwh_title"    />
+        <result property="mzwhCoverImage"    column="mzwh_cover_image"    />
+        <result property="mzwhDescription"    column="mzwh_description"    />
+        <result property="mzwhViewCount"    column="mzwh_view_count"    />
+        <result property="mzwhLocation"    column="mzwh_location"    />
+        <result property="mzwhUp"    column="mzwh_up"    />
+        <result property="mzwhType"    column="mzwh_type"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectHysMzwhVo">
+        select mzwh_id, mzwh_title, mzwh_cover_image, mzwh_description, mzwh_view_count, mzwh_location, mzwh_up, mzwh_type, create_by, create_time, update_by, update_time, remark from hys_mzwh
+    </sql>
+
+    <select id="selectHysMzwhList" parameterType="HysMzwh" resultMap="HysMzwhResult">
+        <include refid="selectHysMzwhVo"/>
+        <where>  
+            <if test="mzwhTitle != null  and mzwhTitle != ''"> and mzwh_title like concat('%', #{mzwhTitle}, '%')</if>
+            <if test="mzwhType != null "> and mzwh_type = #{mzwhType}</if>
+        </where>
+    </select>
+    
+    <select id="selectHysMzwhByMzwhId" parameterType="Long" resultMap="HysMzwhResult">
+        <include refid="selectHysMzwhVo"/>
+        where mzwh_id = #{mzwhId}
+    </select>
+        
+    <insert id="insertHysMzwh" parameterType="HysMzwh" useGeneratedKeys="true" keyProperty="mzwhId">
+        insert into hys_mzwh
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="mzwhTitle != null">mzwh_title,</if>
+            <if test="mzwhCoverImage != null">mzwh_cover_image,</if>
+            <if test="mzwhDescription != null">mzwh_description,</if>
+            <if test="mzwhViewCount != null">mzwh_view_count,</if>
+            <if test="mzwhLocation != null">mzwh_location,</if>
+            <if test="mzwhUp != null">mzwh_up,</if>
+            <if test="mzwhType != null">mzwh_type,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="mzwhTitle != null">#{mzwhTitle},</if>
+            <if test="mzwhCoverImage != null">#{mzwhCoverImage},</if>
+            <if test="mzwhDescription != null">#{mzwhDescription},</if>
+            <if test="mzwhViewCount != null">#{mzwhViewCount},</if>
+            <if test="mzwhLocation != null">#{mzwhLocation},</if>
+            <if test="mzwhUp != null">#{mzwhUp},</if>
+            <if test="mzwhType != null">#{mzwhType},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateHysMzwh" parameterType="HysMzwh">
+        update hys_mzwh
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="mzwhTitle != null">mzwh_title = #{mzwhTitle},</if>
+            <if test="mzwhCoverImage != null">mzwh_cover_image = #{mzwhCoverImage},</if>
+            <if test="mzwhDescription != null">mzwh_description = #{mzwhDescription},</if>
+            <if test="mzwhViewCount != null">mzwh_view_count = #{mzwhViewCount},</if>
+            <if test="mzwhLocation != null">mzwh_location = #{mzwhLocation},</if>
+            <if test="mzwhUp != null">mzwh_up = #{mzwhUp},</if>
+            <if test="mzwhType != null">mzwh_type = #{mzwhType},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where mzwh_id = #{mzwhId}
+    </update>
+
+    <delete id="deleteHysMzwhByMzwhId" parameterType="Long">
+        delete from hys_mzwh where mzwh_id = #{mzwhId}
+    </delete>
+
+    <delete id="deleteHysMzwhByMzwhIds" parameterType="String">
+        delete from hys_mzwh where mzwh_id in 
+        <foreach item="mzwhId" collection="array" open="(" separator="," close=")">
+            #{mzwhId}
+        </foreach>
+    </delete>
+</mapper>

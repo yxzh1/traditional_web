@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wms.mapper.HysHeritageMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.wms.pojo.HysHeritage">
+        <id column="heritage_id" property="heritageId" />
+        <result column="heritage_title" property="heritageTitle" />
+        <result column="heritage_thumbnail" property="heritageThumbnail" />
+        <result column="heritage_description" property="heritageDescription" />
+        <result column="heritage_view" property="heritageView" />
+        <result column="heritage_writer_id" property="heritageWriterId" />
+        <result column="heritage_content" property="heritageContent" />
+        <result column="heritages_publish_time" property="heritagesPublishTime" />
+        <result column="create_by" property="createBy" />
+        <result column="create_time" property="createTime" />
+        <result column="update_by" property="updateBy" />
+        <result column="update_time" property="updateTime" />
+        <result column="remark" property="remark" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        heritage_id, heritage_title, heritage_thumbnail, heritage_description, heritage_view, heritage_writer_id, heritage_content, heritages_publish_time, create_by, create_time, update_by, update_time, remark
+    </sql>
+
+    <select id="getByHeritageId" resultType="map">
+        select <include refid="Base_Column_List"></include>
+        from hys_heritage
+        where heritage_id = #{heritageId}
+    </select>
+
+</mapper>

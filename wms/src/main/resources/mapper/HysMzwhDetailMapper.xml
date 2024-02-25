@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wms.mapper.HysMzwhDetailMapper">
+    
+    <resultMap type="HysMzwhDetail" id="HysMzwhDetailResult">
+        <result property="mzwhDetailId"    column="mzwh_detail_id"    />
+        <result property="mzwhDetailTnId"    column="mzwh_detail_tn_id"    />
+        <result property="mzwhDetailPubliserAvatar"    column="mzwh_detail_publiser_avatar"    />
+        <result property="mzwhDetailPubliserName"    column="mzwh_detail_publiser_name"    />
+        <result property="mzwhDetailPublishTime"    column="mzwh_detail_publish_time"    />
+        <result property="mzwhDetailStartTime"    column="mzwh_detail_start_time"    />
+        <result property="mzwhDetailDay"    column="mzwh_detail_day"    />
+        <result property="mzwhDetailCost"    column="mzwh_detail_cost"    />
+        <result property="mzwhDetailContent"    column="mzwh_detail_content"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectHysMzwhDetailVo">
+        select mzwh_detail_id, mzwh_detail_tn_id, mzwh_detail_publiser_avatar, mzwh_detail_publiser_name, mzwh_detail_publish_time, mzwh_detail_start_time, mzwh_detail_day, mzwh_detail_cost, mzwh_detail_content, create_by, create_time, update_by, update_time, remark from hys_mzwh_detail
+    </sql>
+
+    <select id="getByTnId" resultType="map">
+        SELECT
+            tn.`mzwh_title`,
+            tn.`mzwh_cover_image`,
+            td.`mzwh_detail_tn_id`,
+            td.`mzwh_detail_publiser_avatar`,
+            td.`mzwh_detail_publiser_name`,
+            td.`mzwh_detail_publish_time`,
+            td.`mzwh_detail_start_time`,
+            td.`mzwh_detail_day`,
+            td.`mzwh_detail_cost`,
+            td.`mzwh_detail_content`
+        FROM
+            hys_mzwh tn
+                LEFT JOIN hys_mzwh_detail td
+                          ON tn.`mzwh_id`=td.`mzwh_detail_tn_id`
+        WHERE tn.`mzwh_id`=#{tnId}
+    </select>
+
+    <select id="selectHysMzwhDetailList" parameterType="HysMzwhDetail" resultMap="HysMzwhDetailResult">
+        <include refid="selectHysMzwhDetailVo"/>
+        <where>  
+            <if test="mzwhDetailPubliserName != null  and mzwhDetailPubliserName != ''"> and mzwh_detail_publiser_name like concat('%', #{mzwhDetailPubliserName}, '%')</if>
+            <if test="mzwhDetailPublishTime != null  and mzwhDetailPublishTime != ''"> and mzwh_detail_publish_time like concat('%', #{mzwhDetailPublishTime}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectHysMzwhDetailByMzwhDetailId" parameterType="Long" resultMap="HysMzwhDetailResult">
+        <include refid="selectHysMzwhDetailVo"/>
+        where mzwh_detail_id = #{mzwhDetailId}
+    </select>
+        
+    <insert id="insertHysMzwhDetail" parameterType="HysMzwhDetail" useGeneratedKeys="true" keyProperty="mzwhDetailId">
+        insert into hys_mzwh_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="mzwhDetailTnId != null">mzwh_detail_tn_id,</if>
+            <if test="mzwhDetailPubliserAvatar != null">mzwh_detail_publiser_avatar,</if>
+            <if test="mzwhDetailPubliserName != null">mzwh_detail_publiser_name,</if>
+            <if test="mzwhDetailPublishTime != null">mzwh_detail_publish_time,</if>
+            <if test="mzwhDetailStartTime != null">mzwh_detail_start_time,</if>
+            <if test="mzwhDetailDay != null">mzwh_detail_day,</if>
+            <if test="mzwhDetailCost != null">mzwh_detail_cost,</if>
+            <if test="mzwhDetailContent != null">mzwh_detail_content,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="mzwhDetailTnId != null">#{mzwhDetailTnId},</if>
+            <if test="mzwhDetailPubliserAvatar != null">#{mzwhDetailPubliserAvatar},</if>
+            <if test="mzwhDetailPubliserName != null">#{mzwhDetailPubliserName},</if>
+            <if test="mzwhDetailPublishTime != null">#{mzwhDetailPublishTime},</if>
+            <if test="mzwhDetailStartTime != null">#{mzwhDetailStartTime},</if>
+            <if test="mzwhDetailDay != null">#{mzwhDetailDay},</if>
+            <if test="mzwhDetailCost != null">#{mzwhDetailCost},</if>
+            <if test="mzwhDetailContent != null">#{mzwhDetailContent},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateHysMzwhDetail" parameterType="HysMzwhDetail">
+        update hys_mzwh_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="mzwhDetailTnId != null">mzwh_detail_tn_id = #{mzwhDetailTnId},</if>
+            <if test="mzwhDetailPubliserAvatar != null">mzwh_detail_publiser_avatar = #{mzwhDetailPubliserAvatar},</if>
+            <if test="mzwhDetailPubliserName != null">mzwh_detail_publiser_name = #{mzwhDetailPubliserName},</if>
+            <if test="mzwhDetailPublishTime != null">mzwh_detail_publish_time = #{mzwhDetailPublishTime},</if>
+            <if test="mzwhDetailStartTime != null">mzwh_detail_start_time = #{mzwhDetailStartTime},</if>
+            <if test="mzwhDetailDay != null">mzwh_detail_day = #{mzwhDetailDay},</if>
+            <if test="mzwhDetailCost != null">mzwh_detail_cost = #{mzwhDetailCost},</if>
+            <if test="mzwhDetailContent != null">mzwh_detail_content = #{mzwhDetailContent},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where mzwh_detail_id = #{mzwhDetailId}
+    </update>
+
+    <delete id="deleteHysMzwhDetailByMzwhDetailId" parameterType="Long">
+        delete from hys_mzwh_detail where mzwh_detail_id = #{mzwhDetailId}
+    </delete>
+
+    <delete id="deleteHysMzwhDetailByMzwhDetailIds" parameterType="String">
+        delete from hys_mzwh_detail where mzwh_detail_id in 
+        <foreach item="mzwhDetailId" collection="array" open="(" separator="," close=")">
+            #{mzwhDetailId}
+        </foreach>
+    </delete>
+</mapper>
